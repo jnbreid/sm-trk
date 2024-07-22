@@ -275,7 +275,13 @@ def img_seq_type_input_tracking(SegTracker, io_args, video_name, imgs_path, fps,
                 torch.cuda.empty_cache()
                 gc.collect()
             elif (frame_idx % sam_gap) == 0:
-                seg_mask = SegTracker.seg(frame)
+                ######################################
+                # original code
+                #seg_mask = SegTracker.seg(frame)
+                
+                seg_mask = SegTracker.detect_and_seg(frame, "animals", 0.25, 0.25, box_size_threshold=1, reset_image=True)
+
+                ######################################
                 torch.cuda.empty_cache()
                 gc.collect()
                 track_mask = SegTracker.track(frame)
