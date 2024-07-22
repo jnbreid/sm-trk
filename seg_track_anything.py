@@ -279,7 +279,7 @@ def img_seq_type_input_tracking(SegTracker, io_args, video_name, imgs_path, fps,
                 # original code
                 #seg_mask = SegTracker.seg(frame)
                 
-                seg_mask = SegTracker.detect_and_seg(frame, "animals", 0.25, 0.25, box_size_threshold=1, reset_image=True)
+                seg_mask, _ = SegTracker.detect_and_seg(frame, "animals", 0.25, 0.25, box_size_threshold=1, reset_image=True)
 
                 ######################################
                 torch.cuda.empty_cache()
