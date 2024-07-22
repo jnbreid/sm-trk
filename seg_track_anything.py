@@ -149,7 +149,7 @@ def video_type_input_tracking(SegTracker, input_video, io_args, video_name, fram
                 ###########################################
                 # original code
                 #seg_mask = SegTracker.seg(frame)
-
+                print('Am I even here?')
                 seg_mask, _ = SegTracker.detect_and_seg(frame, "animals", 0.25, 0.25, box_size_threshold=1, reset_image=True)
 
                 ###########################################
