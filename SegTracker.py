@@ -223,6 +223,13 @@ class SegTracker():
             refined_merged_mask: numpy array (h, w)
             annotated_frame: numpy array (h, w, 3)
         '''
+        #######################################################################
+
+        print("Here Dino is used")
+        #######################################################################
+        
+
+
         # backup id and origin-merged-mask
         bc_id = self.curr_idx
         bc_mask = self.origin_merged_mask
