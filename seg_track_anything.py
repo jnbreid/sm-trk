@@ -140,12 +140,12 @@ def video_type_input_tracking(SegTracker, input_video, io_args, video_name, fram
             if not ret:
                 break
             frame = cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
-            
+            print(frame_idx)
             if frame_idx == 0:
                 pred_mask = SegTracker.first_frame_mask
                 torch.cuda.empty_cache()
                 gc.collect()
-            elif (frame_idx % sam_gap) == 0:
+            elif frame_idx != 0:#(frame_idx % sam_gap) == 0:
                 ###########################################
                 # original code
                 #seg_mask = SegTracker.seg(frame)
