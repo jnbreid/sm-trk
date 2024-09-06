@@ -116,10 +116,12 @@ def init_SegTracker(aot_model, long_term_mem, max_len_long_term, sam_gap, max_ob
         return None, origin_frame, [[], []], ""
 
     # reset aot args
-    aot_args["model"] = aot_model
-    aot_args["model_path"] = aot_model2ckpt[aot_model]
+    aot_args["model"] = 'r50_deaotl'#aot_model
+    aot_args["model_path"] = "./ckpt/R50_DeAOTL_PRE_YTB_DAV.pth"#aot_model2ckpt[aot_model]
     aot_args["long_term_mem_gap"] = long_term_mem
     aot_args["max_len_long_term"] = max_len_long_term
+    #print(aot_args)
+
     # reset sam args
     segtracker_args["sam_gap"] = sam_gap
     segtracker_args["max_obj_num"] = max_obj_num
@@ -475,39 +477,47 @@ def seg_track_app():
 
     points_per_side = 32
     sam_gap = 100
-    aot_model = 'r50_deaot1'
-    max_obj_num = 200
-    
-    input_video = '/content/drive/MyDrive/wildbrück_vids/2.mp4'
-    input_img_seq = None
-    fps = 8
-
-    origin_frame = None
-    Seg_Tracker = None
-    current_frame_num = None
-    refine_idx = None
-    frame_num = None
-    
-    aot_model = None
-    sam_gap = 100
-    points_per_side = 32
+    aot_model = 'r50_deaotl'
     max_obj_num = 200
 
-    grounding_caption = 'animals'
-    box_threshold = 0.25
-    text_threshold = 0.25
+    video_folder = '/content/drive/MyDrive/wildbrück_vids'
+    import os
+    vid_names = os.listdir(video_folder)[:-1:]
 
-    long_term_mem = 9999
-    max_len_long_term = 9999
-    Seg_Tracker = None
+    video_paths = [video_folder + '/' + item for item in vid_names]
+    #print(video_paths)
 
-    input_first_frame, origin_frame, drawing_board, _ = get_meta_from_video(input_video) # grounding_caption
-    #Seg_Tracker, input_first_frame, click_stack, _= init_SegTracker(aot_model, long_term_mem,max_len_long_term, sam_gap,max_obj_num,points_per_side,origin_frame) # grounding_caption
-    
-    Seg_Tracker, masked_frame, origin_frame = gd_detect(Seg_Tracker, origin_frame, grounding_caption, box_threshold, text_threshold,aot_model, long_term_mem, max_len_long_term, sam_gap, max_obj_num, points_per_side)
-    
-    out = tracking_objects(Seg_Tracker, input_video, input_img_seq, fps, frame_num=0)
-    #Seg_Tracker = SegTracker_add_first_frame(Seg_Tracker, origin_frame, predicted_mask)
+    for input_video in video_paths:
+
+      input_img_seq = None
+      fps = 8
+
+      origin_frame = None
+      Seg_Tracker = None
+      current_frame_num = None
+      refine_idx = None
+      frame_num = None
+      
+      aot_model = None
+      sam_gap = 100
+      points_per_side = 32
+      max_obj_num = 200
+
+      grounding_caption = 'animals'
+      box_threshold = 0.25
+      text_threshold = 0.25
+
+      long_term_mem = 9999
+      max_len_long_term = 9999
+      Seg_Tracker = None
+
+      input_first_frame, origin_frame, drawing_board, _ = get_meta_from_video(input_video) # grounding_caption
+      #Seg_Tracker, input_first_frame, click_stack, _= init_SegTracker(aot_model, long_term_mem,max_len_long_term, sam_gap,max_obj_num,points_per_side,origin_frame) # grounding_caption
+      
+      Seg_Tracker, masked_frame, origin_frame = gd_detect(Seg_Tracker, origin_frame, grounding_caption, box_threshold, text_threshold,aot_model, long_term_mem, max_len_long_term, sam_gap, max_obj_num, points_per_side)
+      
+      out = tracking_objects(Seg_Tracker, input_video, input_img_seq, fps, frame_num=0)
+      #Seg_Tracker = SegTracker_add_first_frame(Seg_Tracker, origin_frame, predicted_mask)
 
 
     return
